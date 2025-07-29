@@ -2,16 +2,24 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>강동경찰서 메뉴</title>
   <style>
     :root {
-      --primary: #003B4F;
+      --primary:   #003B4F;
       --secondary: #002B3F;
-      --accent: #FFFFFF;
+      --accent:    #FFFFFF;
+      --card-bg:   #f9f9f9;
+      --card-text: #002B3F;
+      --shadow:    rgba(0, 0, 0, 0.15);
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-    body { background: var(--primary); color: var(--accent); font-family: Arial, sans-serif; min-height: 100vh; }
+    * { margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
+    body {
+      background: var(--primary);
+      color: var(--accent);
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+    }
     .site-header {
       display: flex;
       align-items: center;
@@ -22,12 +30,10 @@
       border-bottom: 2px solid var(--accent);
     }
     .site-title { font-size: 3.5rem; font-weight: 700; }
-    .logo { height: 40px; }
+    .logo       { height: 40px; }
 
     /* Desktop */
-    .main-menu,
-    .submenu-container,
-    .nav-footer {
+    .main-menu, .submenu-container, .nav-footer {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -36,7 +42,7 @@
       margin-top: 5cm;
     }
     .main-menu button { padding: 20px 40px; font-size: 32px; border-radius: 16px; }
-    .sub-btn { padding: 16px 32px; font-size: 28px; border-radius: 12px; }
+    .sub-btn          { padding: 16px 32px; font-size: 28px; border-radius: 12px; }
     .nav-footer button {
       padding: 20px 40px;
       font-size: 32px;
@@ -46,25 +52,19 @@
     }
 
     /* Mobile */
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width:768px) {
       .site-title { font-size: 2rem; }
-      .main-menu,
-      .submenu-container,
-      .nav-footer {
+      .main-menu, .submenu-container, .nav-footer {
         flex-direction: column;
         align-items: center;
         margin-top: 2cm;
       }
-      .main-menu button,
-      .sub-btn,
-      .nav-footer button {
-        width: 80%;
-        max-width: 300px;
-        margin: .5rem 0;
+      .main-menu button, .sub-btn, .nav-footer button {
+        width: 80%; max-width: 300px; margin: .5rem 0;
       }
       .main-menu button { padding: 16px; font-size: 24px; }
-      .sub-btn { padding: 12px; font-size: 20px; }
-      .nav-footer button { padding: 16px; font-size: 24px; }
+      .sub-btn          { padding: 12px; font-size: 20px; }
+      .nav-footer button{ padding: 16px; font-size: 24px; }
     }
 
     button {
@@ -76,12 +76,47 @@
     }
     button:hover { background: var(--accent); color: var(--primary); }
     .hidden { display: none; }
-    .content-container { padding: 16px; text-align: center; }
+
+    /* 콘텐츠 카드 스타일 */
+    .content-container {
+      padding: 16px;
+      text-align: center;
+    }
+    .content-card {
+      margin-top: 3cm;            /* ← 카드 위치를 3cm 아래로 이동 */
+      background: var(--card-bg);
+      color: var(--card-text);
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+    .content-card h2 {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+    .content-card p {
+      font-size: 1.1rem;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    .content-card ul, .content-card ol {
+      margin: 16px auto;
+      padding-left: 1.5rem;
+      text-align: left;
+      max-width: 600px;
+    }
+    .content-card li {
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
   </style>
 </head>
 <body>
   <header class="site-header">
-    <img src="logo.png" alt="로고" class="logo" />
+    <img src="logo.png" alt="로고" class="logo"/>
     <h1 class="site-title">강동경찰서</h1>
   </header>
 
@@ -101,106 +136,59 @@
   </footer>
 
   <script>
-    // 1. 메뉴 데이터
     const menuData = {
-      menu1: ['공업사', '보험 접수','공문작성','견인 접수 연락처', '담당자 연락처'],
-      menu2: ['고장났어요','소프트웨어','담당자'],
-      menu3: ['경비전화 고장','업무용 폰 고장','내부망 고장'],
-      menu4: ['개인정보 유출','보안 프로그램 미설치','보안 규정 문의'],
-      menu5: ['새 토너 필요','A4 용지 필요','기타 물품 필요']
+      menu1: ['공업사','보험 접수','공문작성','견인 접수 연락처','담당자 연락처'],
+      menu2: ['타이어 펑크','연료 부족','배터리 방전'],
+      menu3: ['가까운 주유소','가격 비교','영업시간'],
+      menu4: ['가까운 세차장','가격','풀패키지'],
+      menu5: ['업체명','연락처','업무시간']
     };
-
-    // 2. 중첩 메뉴 데이터
     const subMenuData = {
-     
-      '사고 났어요': ['견인이 필요해요','보험회사 연락처','담당자'],
+      '공업사': ['남영공업사','동부공업사'],
+      '보험 접수': ['삼성화재','현대해상'],
       '소프트웨어': ['MS오피스(엑셀)','한컴','기타']
     };
-
-    // 3. 최하위 버튼별 설명 HTML 템플릿
     const contentData = {
-      '견인 접수 연락처': `
-        <h2>견인 접수 연락처 안내</h2>
-        <p>삼성화재 : 1566-1228</p>
-      `,
-      '보험 접수': `
-        <h2>보험 접수 연락처 안내</h2>
-        <p>삼성화재 : 1566-6881</p>
-        <ol>
-          <li>사고정보 전달</li>
-          <li>보험사로부터 보험접수번호 부여</li>
-       </ol>
-      `,
-      '공문작성': `
-        <h2>공문작성 안내</h2>
-        <p>온나라 발생보고서 작성(보험접수번호 기재)</p>
-      `,
-      '공업사': `
-        <h2>공업사 안내</h2>
-        <p>남영공업사 : 02-442-1055</p>
-        <ol>
-          <li>주소 : 강동구 고덕로 62</li>
-       </ol>
-      `,
-      '담당자 연락처': `
-        <h2>담당자 연락처 안내</h2>
-        <p>연락처 : 02-3449-7272</p>
-      `,
-
-      'MS오피스(엑셀)': `
-        <h2>Microsoft Excel 핵심 기능</h2>
-        <p>내부망 엑셀이 필요하시면 담당자에게 요청 바랍니다.</p>
-        <ol>
-          <li>담당자 : </li>
-          <li>경비번호 : </li>
-          <li>담당부서 : 정보화장비계</li>
-        </ol>
-      `,
-      // ...원하는 만큼 추가하세요
+      '남영공업사': `<h2>남영공업사 안내</h2><p>📞 02-442-1055</p><p>📍 강동구 고덕로 62</p>`,
+      '동부공업사': `<h2>동부공업사 안내</h2><p>📞 02-123-4567</p><p>📍 강동구 천호대로 123</p>`,
+      '삼성화재':    `<h2>삼성화재 보험 접수</h2><p>📞 1566-1228</p>`,
+      '현대해상':    `<h2>현대해상 보험 접수</h2><p>📞 1588-5656</p>`,
+      '타이어 펑크': `<h2>타이어 펑크 대처 안내</h2><p>근처 AAA 견인 요청: 111-2222</p>`
     };
 
-    // 4. 상태 스택 및 요소 참조
     let historyStack = [];
-    const mainMenuEl = document.getElementById('mainMenu');
-    const submenuEl = document.getElementById('submenuContainer');
-    const contentEl = document.getElementById('contentContainer');
-    const navFooter = document.getElementById('navFooter');
-    const backBtn = document.getElementById('backBtn');
-    const homeBtn = document.getElementById('homeBtn');
+    const mainMenuEl   = document.getElementById('mainMenu');
+    const submenuEl    = document.getElementById('submenuContainer');
+    const contentEl    = document.getElementById('contentContainer');
+    const navFooter    = document.getElementById('navFooter');
+    const backBtn      = document.getElementById('backBtn');
+    const homeBtn      = document.getElementById('homeBtn');
 
-    // 초기 상태: 메인 메뉴 보여주기
     showMain();
 
-    // 메인 메뉴 클릭
     mainMenuEl.addEventListener('click', e => {
       if (e.target.tagName === 'BUTTON') {
         const key = e.target.dataset.key;
-        historyStack = [{ view: 'main' }, { view: 'sub', key }];
+        historyStack = [{view:'main'},{view:'sub',key}];
         showSubMenu(key);
       }
     });
-
-    // 서브 또는 중첩 메뉴 클릭
     submenuEl.addEventListener('click', e => {
       if (e.target.tagName === 'BUTTON') {
-        const text = e.target.textContent;
-        const last = historyStack[historyStack.length - 1];
-        if (last.view === 'sub') {
-          historyStack.push({ view: 'nested', sub: text, parent: last.key });
-          if (subMenuData[text]) showNested(text);
-          else showContent(text);
-        } else if (last.view === 'nested') {
-          historyStack.push({ view: 'content', item: text });
-          showContent(text);
+        const txt = e.target.textContent;
+        const last = historyStack[historyStack.length-1];
+        if (last.view==='sub') {
+          historyStack.push({view:'nested',parent:last.key,sub:txt});
+          subMenuData[txt] ? showNested(txt) : showContent(txt);
+        } else {
+          historyStack.push({view:'content',item:txt});
+          showContent(txt);
         }
       }
     });
-
-    // 이전 / 홈 버튼
     backBtn.addEventListener('click', goBack);
     homeBtn.addEventListener('click', goHome);
 
-    // 화면 전환 함수들
     function showMain() {
       mainMenuEl.classList.remove('hidden');
       submenuEl.classList.add('hidden');
@@ -209,17 +197,13 @@
     }
     function showSubMenu(key) {
       mainMenuEl.classList.add('hidden');
-      submenuEl.innerHTML = menuData[key]
-        .map(item => `<button class="sub-btn">${item}</button>`)
-        .join('');
+      submenuEl.innerHTML = menuData[key].map(x=>`<button class="sub-btn">${x}</button>`).join('');
       submenuEl.classList.remove('hidden');
       contentEl.innerHTML = '';
       navFooter.classList.remove('hidden');
     }
     function showNested(sub) {
-      submenuEl.innerHTML = subMenuData[sub]
-        .map(item => `<button class="sub-btn">${item}</button>`)
-        .join('');
+      submenuEl.innerHTML = subMenuData[sub].map(x=>`<button class="sub-btn">${x}</button>`).join('');
       submenuEl.classList.remove('hidden');
       contentEl.innerHTML = '';
       navFooter.classList.remove('hidden');
@@ -227,28 +211,23 @@
     function showContent(item) {
       mainMenuEl.classList.add('hidden');
       submenuEl.classList.add('hidden');
-      // 커스텀 템플릿 적용, 없으면 기본 포맷
-      contentEl.innerHTML = contentData[item] || `
-        <h2>${item}</h2>
-        <p>'${item}'에 대한 기본 설명입니다.</p>
+      contentEl.innerHTML = `
+        <div class="content-card">
+          ${contentData[item]||`<h2>${item}</h2><p>'${item}' 기본 설명</p>`}
+        </div>
       `;
       navFooter.classList.remove('hidden');
     }
-
-    // 이전으로
     function goBack() {
-      if (historyStack.length <= 1) return showMain();
-      historyStack.pop(); // 현재 화면 제거
-      const prev = historyStack[historyStack.length - 1];
-      switch (prev.view) {
-        case 'main':  showMain();              break;
-        case 'sub':   showSubMenu(prev.key);   break;
-        case 'nested':showNested(prev.sub);    break;
-      }
+      if (historyStack.length<=1) return showMain();
+      historyStack.pop();
+      const prev = historyStack[historyStack.length-1];
+      if (prev.view==='main') showMain();
+      else if (prev.view==='sub') showSubMenu(prev.key);
+      else if (prev.view==='nested') showNested(prev.sub);
     }
-    // 홈으로
-    function goHome() {
-      historyStack = [];
+    function goHome(){
+      historyStack=[];
       showMain();
     }
   </script>
