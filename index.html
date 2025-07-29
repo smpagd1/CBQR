@@ -44,9 +44,16 @@
     flex-direction: column;
     margin-top: 2cm;
   }
-  .main-menu button { width: 80%; padding: 16px; font-size: 24px; }
-  .sub-btn { width: 70%; padding: 12px; font-size: 20px; }
-  .nav-footer button { width: 60%; padding: 16px; font-size: 24px; }
+  .main-menu button,
+  .sub-btn,
+  .nav-footer button {
+    width: 80%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  .main-menu button { padding: 16px; font-size: 24px; }
+  .sub-btn { padding: 12px; font-size: 20px; }
+  .nav-footer button { padding: 16px; font-size: 24px; }
 }
 
 button {
