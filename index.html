@@ -3,33 +3,149 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>세로 배너 예제</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>강동경찰서 메뉴</title>
+  <style>
+    :root { --primary:#003B4F; --secondary:#002B3F; --accent:#FFFFFF; }
+    * { margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
+    body { background:var(--primary); color:var(--accent); font-family:Arial,sans-serif; min-height:100vh; }
+    .site-header { display:flex; align-items:center; justify-content:center; gap:16px; background:var(--secondary); padding:16px; border-bottom:2px solid var(--accent); }
+    .site-title { font-size:3.5rem; font-weight:700; }
+    .logo { height:40px; }
+    .main-menu, .submenu-container, .nav-footer { display:flex; justify-content:center; gap:20px; flex-wrap:wrap; }
+    .main-menu { margin:5cm auto 0; }
+    .submenu-container { margin:5cm auto 0; }
+    .nav-footer { margin:5cm auto 0; }
+    button { background:transparent; border:2px solid var(--accent); color:var(--accent); cursor:pointer; transition:background 0.3s, opacity 0.3s; }
+    button:hover { background:var(--accent); color:var(--primary); }
+    .main-menu button { padding:20px 40px; font-size:32px; border-radius:16px; }
+    .sub-btn { padding:16px 32px; font-size:28px; border-radius:12px; }
+    .nav-footer button { padding:20px 40px; font-size:32px; border-radius:16px; border:none; background:var(--secondary); }
+    .hidden { display:none; }
+    .content-container { padding:16px; text-align:center; }
+  </style>
 </head>
 <body>
-  <!-- 왼쪽 세로 고정 배너 텍스트 메뉴 -->
-  <nav class="sidebar">
-    <a href="#section1" class="text-banner">🏠 홈</a>
-    <a href="#section2" class="text-banner">📄 소개</a>
-    <a href="#section3" class="text-banner">📞 연락처</a>
+  <header class="site-header">
+    <img src="logo.png" alt="로고" class="logo" />
+    <h1 class="site-title">강동경찰서</h1>
+  </header>
+
+  <nav class="main-menu" id="mainMenu">
+    <button data-key="car">🚗 차량</button>
+    <button data-key="computer">💻 전산장비</button>
+    <button data-key="phone">📞 유무선</button>
+    <button data-key="secure">🔐 보안</button>
+    <button data-key="goods">📦 일반물품</button>
   </nav>
 
-  <!-- 콘텐츠 영역 -->
-  <main class="main-content">
-    <div id="section1" class="content-section">
-      <h1>홈</h1>
-      <p>홈 섹션입니다. 여기에 간단한 소개나 링크를 넣을 수 있습니다.</p>
-    </div>
+  <section class="submenu-container hidden" id="submenuContainer"></section>
+  <section class="content-container" id="contentContainer"></section>
+  <footer class="nav-footer hidden" id="navFooter">
+    <button id="backBtn">🔙 이전</button>
+    <button id="homeBtn">🏠 홈으로</button>
+  </footer>
 
-    <div id="section2" class="content-section">
-      <h1>소개</h1>
-      <p>여기는 사이트나 팀에 대한 소개가 들어갈 수 있는 섹션입니다.</p>
-    </div>
+  <script>
+    const menuData = {
+      car: ['고장 났어요','사고 났어요','담당자'],
+      computer: ['고장났어요','소프트웨어','담당자'],
+      phone: ['경비전화 고장','업무용 폰 고장','내부망 고장'],
+      secure: ['개인정보 유출','보안 프로그램 미설치','보안 규정 문의'],
+      goods: ['새 토너 필요','A4 용지 필요','기타 물품 필요']
+    };
+    const subMenuData = {
+      '고장 났어요': ['타이어 펑크','연료 부족','배터리 방전'],
+      '사고 났어요': ['견인이 필요해요','보험회사 연락처','담당자'],
+      '소프트웨어': ['MS오피스(엑셀)','한컴','기타']
+    };
 
-    <div id="section3" class="content-section">
-      <h1>연락처</h1>
-      <p>연락처나 문의 정보를 이곳에 넣을 수 있습니다.</p>
-    </div>
-  </main>
+    let historyStack = [];
+    const mainMenuEl = document.getElementById('mainMenu');
+    const submenuEl = document.getElementById('submenuContainer');
+    const contentEl = document.getElementById('contentContainer');
+    const navFooter = document.getElementById('navFooter');
+    const backBtn = document.getElementById('backBtn');
+    const homeBtn = document.getElementById('homeBtn');
+
+    // 초기화: 메인 메뉴 표시
+    showMain();
+
+    mainMenuEl.addEventListener('click', e => {
+      if (e.target.tagName === 'BUTTON') {
+        const key = e.target.dataset.key;
+        historyStack = [{ view: 'main' }, { view: 'sub', key }];
+        showSubMenu(key);
+      }
+    });
+
+    submenuEl.addEventListener('click', e => {
+      if (e.target.tagName === 'BUTTON') {
+        const text = e.target.textContent;
+        const last = historyStack[historyStack.length - 1];
+        if (last.view === 'sub') {
+          historyStack.push({ view: 'nested', parent: last.key, sub: text });
+          if (subMenuData[text]) showNested(text);
+          else showContent(text);
+        } else if (last.view === 'nested') {
+          historyStack.push({ view: 'content', item: text });
+          showContent(text);
+        }
+      }
+    });
+
+    backBtn.addEventListener('click', goBack);
+    homeBtn.addEventListener('click', goHome);
+
+    function showMain() {
+      mainMenuEl.classList.remove('hidden');
+      submenuEl.classList.add('hidden');
+      contentEl.innerHTML = '';
+      navFooter.classList.add('hidden');
+    }
+
+    function showSubMenu(key) {
+      mainMenuEl.classList.add('hidden');
+      submenuEl.innerHTML = menuData[key]
+        .map(item => `<button class="sub-btn">${item}</button>`)
+        .join('');
+      submenuEl.classList.remove('hidden');
+      contentEl.innerHTML = '';
+      navFooter.classList.remove('hidden');
+    }
+
+    function showNested(sub) {
+      submenuEl.innerHTML = subMenuData[sub]
+        .map(item => `<button class="sub-btn">${item}</button>`)
+        .join('');
+      submenuEl.classList.remove('hidden');
+      contentEl.innerHTML = '';
+      navFooter.classList.remove('hidden');
+    }
+
+    function showContent(item) {
+      mainMenuEl.classList.add('hidden');
+      submenuEl.classList.add('hidden');
+      contentEl.innerHTML = `<h2>${item}</h2><p>${item}에 대한 설명 페이지입니다.</p>`;
+      navFooter.classList.remove('hidden');
+    }
+
+    function goBack() {
+      if (historyStack.length <= 1) return showMain();
+      historyStack.pop(); // 현재 화면 제거
+      const prev = historyStack[historyStack.length - 1];
+      if (prev.view === 'main') {
+        showMain();
+      } else if (prev.view === 'sub') {
+        showSubMenu(prev.key);
+      } else if (prev.view === 'nested') {
+        showNested(prev.sub);
+      }
+    }
+
+    function goHome() {
+      historyStack = [];
+      showMain();
+    }
+  </script>
 </body>
 </html>
