@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="ko">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -21,70 +22,86 @@
       border-bottom: 2px solid var(--accent);
     }
     .site-title { font-size: 3.5rem; font-weight: 700; }
-    .logo { height: 40px; }/* Desktop styles */
-.main-menu,
-.submenu-container,
-.nav-footer {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-top: 5cm;
-}
-.main-menu button { padding: 20px 40px; font-size: 32px; border-radius: 16px; }
-.sub-btn { padding: 16px 32px; font-size: 28px; border-radius: 12px; }
-.nav-footer button { padding: 20px 40px; font-size: 32px; border-radius: 16px; border: none; background: var(--secondary); }
+    .logo { height: 40px; }
 
-/* Mobile styles */
-@media screen and (max-width: 768px) {
-  .site-title { font-size: 2rem; }
-  .main-menu,
-  .submenu-container,
-  .nav-footer {
-    flex-direction: column;
-    margin-top: 2cm;
-  }
-  .main-menu button,
-  .sub-btn,
-  .nav-footer button {
-    width: 80%;
-    max-width: 300px;
-    margin: 0 auto;
-  }
-  .main-menu button { padding: 16px; font-size: 24px; }
-  .sub-btn { padding: 12px; font-size: 20px; }
-  .nav-footer button { padding: 16px; font-size: 24px; }
-}
+    /* Desktop */
+    .main-menu,
+    .submenu-container,
+    .nav-footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 5cm;
+    }
+    .main-menu button { padding: 20px 40px; font-size: 32px; border-radius: 16px; }
+    .sub-btn { padding: 16px 32px; font-size: 28px; border-radius: 12px; }
+    .nav-footer button {
+      padding: 20px 40px;
+      font-size: 32px;
+      border-radius: 16px;
+      border: none;
+      background: var(--secondary);
+    }
 
-button {
-  background: transparent;
-  border: 2px solid var(--accent);
-  color: var(--accent);
-  cursor: pointer;
-  transition: background 0.3s, opacity 0.3s;
-}
-button:hover { background: var(--accent); color: var(--primary); }
-.hidden { display: none; }
-.content-container { padding: 16px; text-align: center; }
+    /* Mobile */
+    @media screen and (max-width: 768px) {
+      .site-title { font-size: 2rem; }
+      .main-menu,
+      .submenu-container,
+      .nav-footer {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 2cm;
+      }
+      .main-menu button,
+      .sub-btn,
+      .nav-footer button {
+        width: 80%;
+        max-width: 300px;
+        margin: .5rem 0;
+      }
+      .main-menu button { padding: 16px; font-size: 24px; }
+      .sub-btn { padding: 12px; font-size: 20px; }
+      .nav-footer button { padding: 16px; font-size: 24px; }
+    }
 
+    button {
+      background: transparent;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      cursor: pointer;
+      transition: background .3s, opacity .3s;
+    }
+    button:hover { background: var(--accent); color: var(--primary); }
+    .hidden { display: none; }
+    .content-container { padding: 16px; text-align: center; }
   </style>
 </head>
 <body>
   <header class="site-header">
     <img src="logo.png" alt="로고" class="logo" />
     <h1 class="site-title">강동경찰서</h1>
-  </header>  <nav class="main-menu" id="mainMenu">
+  </header>
+
+  <nav class="main-menu" id="mainMenu">
     <button data-key="car">🚗 차량</button>
     <button data-key="computer">💻 전산장비</button>
     <button data-key="phone">📞 유무선</button>
     <button data-key="secure">🔐 보안</button>
     <button data-key="goods">📦 일반물품</button>
-  </nav>  <section class="submenu-container hidden" id="submenuContainer"></section>
+  </nav>
+
+  <section class="submenu-container hidden" id="submenuContainer"></section>
   <section class="content-container" id="contentContainer"></section>
   <footer class="nav-footer hidden" id="navFooter">
     <button id="backBtn">🔙 이전</button>
     <button id="homeBtn">🏠 홈으로</button>
-  </footer>  <script>
+  </footer>
+
+  <script>
+    // 1. 메뉴 데이터
     const menuData = {
       car: ['고장 났어요','사고 났어요','담당자'],
       computer: ['고장났어요','소프트웨어','담당자'],
@@ -92,12 +109,37 @@ button:hover { background: var(--accent); color: var(--primary); }
       secure: ['개인정보 유출','보안 프로그램 미설치','보안 규정 문의'],
       goods: ['새 토너 필요','A4 용지 필요','기타 물품 필요']
     };
+
+    // 2. 중첩 메뉴 데이터
     const subMenuData = {
       '고장 났어요': ['타이어 펑크','연료 부족','배터리 방전'],
       '사고 났어요': ['견인이 필요해요','보험회사 연락처','담당자'],
       '소프트웨어': ['MS오피스(엑셀)','한컴','기타']
     };
 
+    // 3. 최하위 버튼별 설명 HTML 템플릿
+    const contentData = {
+      '타이어 펑크': `
+        <h2>타이어 펑크 대처 안내</h2>
+        <p>경찰서에서는 직접 견인을 지원하지 않습니다. 주변 견인업체 연락처:</p>
+        <ul>
+          <li>AAA 견인: 123-4567</li>
+          <li>BBB 긴급출동: 765-4321</li>
+        </ul>
+      `,
+      'MS오피스(엑셀)': `
+        <h2>Microsoft Excel 핵심 기능</h2>
+        <p>내부망 엑셀이 필요하시면 담당자에게 요청 바랍니다.</p>
+        <ol>
+          <li>담당자 : </li>
+          <li>경비번호 : </li>
+          <li>담당부서 : 정보화장비계</li>
+        </ol>
+      `,
+      // ...원하는 만큼 추가하세요
+    };
+
+    // 4. 상태 스택 및 요소 참조
     let historyStack = [];
     const mainMenuEl = document.getElementById('mainMenu');
     const submenuEl = document.getElementById('submenuContainer');
@@ -106,7 +148,10 @@ button:hover { background: var(--accent); color: var(--primary); }
     const backBtn = document.getElementById('backBtn');
     const homeBtn = document.getElementById('homeBtn');
 
+    // 초기 상태: 메인 메뉴 보여주기
     showMain();
+
+    // 메인 메뉴 클릭
     mainMenuEl.addEventListener('click', e => {
       if (e.target.tagName === 'BUTTON') {
         const key = e.target.dataset.key;
@@ -114,12 +159,14 @@ button:hover { background: var(--accent); color: var(--primary); }
         showSubMenu(key);
       }
     });
+
+    // 서브 또는 중첩 메뉴 클릭
     submenuEl.addEventListener('click', e => {
       if (e.target.tagName === 'BUTTON') {
         const text = e.target.textContent;
         const last = historyStack[historyStack.length - 1];
         if (last.view === 'sub') {
-          historyStack.push({ view: 'nested', parent: last.key, sub: text });
+          historyStack.push({ view: 'nested', sub: text, parent: last.key });
           if (subMenuData[text]) showNested(text);
           else showContent(text);
         } else if (last.view === 'nested') {
@@ -128,9 +175,12 @@ button:hover { background: var(--accent); color: var(--primary); }
         }
       }
     });
+
+    // 이전 / 홈 버튼
     backBtn.addEventListener('click', goBack);
     homeBtn.addEventListener('click', goHome);
 
+    // 화면 전환 함수들
     function showMain() {
       mainMenuEl.classList.remove('hidden');
       submenuEl.classList.add('hidden');
@@ -157,22 +207,30 @@ button:hover { background: var(--accent); color: var(--primary); }
     function showContent(item) {
       mainMenuEl.classList.add('hidden');
       submenuEl.classList.add('hidden');
-      contentEl.innerHTML = `<h2>${item}</h2><p>${item}에 대한 설명 페이지입니다.</p>`;
+      // 커스텀 템플릿 적용, 없으면 기본 포맷
+      contentEl.innerHTML = contentData[item] || `
+        <h2>${item}</h2>
+        <p>'${item}'에 대한 기본 설명입니다.</p>
+      `;
       navFooter.classList.remove('hidden');
     }
+
+    // 이전으로
     function goBack() {
       if (historyStack.length <= 1) return showMain();
-      historyStack.pop();
+      historyStack.pop(); // 현재 화면 제거
       const prev = historyStack[historyStack.length - 1];
-      switch(prev.view) {
-        case 'main': showMain(); break;
-        case 'sub': showSubMenu(prev.key); break;
-        case 'nested': showNested(prev.sub); break;
+      switch (prev.view) {
+        case 'main':  showMain();              break;
+        case 'sub':   showSubMenu(prev.key);   break;
+        case 'nested':showNested(prev.sub);    break;
       }
     }
+    // 홈으로
     function goHome() {
       historyStack = [];
       showMain();
     }
-  </script></body>
+  </script>
+</body>
 </html>
