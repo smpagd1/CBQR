@@ -1,120 +1,35 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CBQR - Context-Based Query Reformulation</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>세로 배너 예제</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>CBQR</h1>
-            <p>Context-Based Query Reformulation for Enhanced Search</p>
-            <nav>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#demo">Demo</a></li>
-                    <li><a href="#paper">Paper</a></li>
-                    <li><a href="#code">Code</a></li>
-                    <li><a href="#team">Team</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+  <!-- 왼쪽 세로 고정 배너 텍스트 메뉴 -->
+  <nav class="sidebar">
+    <a href="#section1" class="text-banner">🏠 홈</a>
+    <a href="#section2" class="text-banner">📄 소개</a>
+    <a href="#section3" class="text-banner">📞 연락처</a>
+  </nav>
 
-    <main>
-        <section id="home" class="hero-section">
-            <div class="container">
-                <h2>Welcome to CBQR</h2>
-                <p>Our research focuses on improving search precision by intelligently reformulating user queries based on the surrounding context. Discover how CBQR enhances search effectiveness.</p>
-                <a href="#demo" class="button">Try the Demo</a>
-            </div>
-        </section>
+  <!-- 콘텐츠 영역 -->
+  <main class="main-content">
+    <div id="section1" class="content-section">
+      <h1>홈</h1>
+      <p>홈 섹션입니다. 여기에 간단한 소개나 링크를 넣을 수 있습니다.</p>
+    </div>
 
-        <section id="demo" class="demo-section">
-            <div class="container">
-                <h2>Interactive Demo</h2>
-                <p>Enter your original query and some context to see how CBQR rephrases it for better results.</p>
-                <div class="demo-card">
-                    <div class="input-group">
-                        <label for="originalQuery">Original Query:</label>
-                        <input type="text" id="originalQuery" placeholder="e.g., machine learning models">
-                    </div>
-                    <div class="input-group">
-                        <label for="context">Context (optional):</label>
-                        <textarea id="context" rows="3" placeholder="e.g., I am looking for recent advancements in deep learning."></textarea>
-                    </div>
-                    <button id="reformulateBtn">Reformulate Query</button>
-                    <div class="result-box">
-                        <h3>Reformulated Query:</h3>
-                        <p id="reformulatedQuery">Your reformulated query will appear here.</p>
-                    </div>
-                    <div class="example-queries">
-                        <h4>Examples:</h4>
-                        <ul>
-                            <li>"climate change impacts" + "on polar bears"</li>
-                            <li>"Python libraries" + "for data visualization"</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <div id="section2" class="content-section">
+      <h1>소개</h1>
+      <p>여기는 사이트나 팀에 대한 소개가 들어갈 수 있는 섹션입니다.</p>
+    </div>
 
-        <section id="paper" class="content-section">
-            <div class="container">
-                <h2>Our Research Paper</h2>
-                <p>Download our full research paper to dive deeper into the methodology, experimental results, and implications of CBQR.</p>
-                <a href="path/to/your_paper.pdf" target="_blank" class="button download-button">Download Paper (PDF)</a>
-                <p class="note">**Note:** Replace `path/to/your_paper.pdf` with the actual path to your PDF file in your GitHub repository.</p>
-            </div>
-        </section>
-
-        <section id="code" class="content-section">
-            <div class="container">
-                <h2>Source Code</h2>
-                <p>The full source code for the CBQR system and the website is available on GitHub.</p>
-                <a href="https://github.com/your-username/your-cbqr-repo" target="_blank" class="button github-button">Visit GitHub Repository</a>
-                <p class="note">**Note:** Replace `your-username/your-cbqr-repo` with your actual GitHub repository link.</p>
-            </div>
-        </section>
-
-        <section id="team" class="content-section">
-            <div class="container">
-                <h2>Our Team</h2>
-                <div class="team-members">
-                    <div class="member-card">
-                        <img src="https://via.placeholder.com/100" alt="Team Member 1">
-                        <h3>John Doe</h3>
-                        <p>Lead Researcher</p>
-                        <p><a href="mailto:john.doe@example.com">john.doe@example.com</a></p>
-                    </div>
-                    <div class="member-card">
-                        <img src="https://via.placeholder.com/100" alt="Team Member 2">
-                        <h3>Jane Smith</h3>
-                        <p>Software Engineer</p>
-                        <p><a href="mailto:jane.smith@example.com">jane.smith@example.com</a></p>
-                    </div>
-                    </div>
-            </div>
-        </section>
-
-        <section id="contact" class="content-section">
-            <div class="container">
-                <h2>Contact Us</h2>
-                <p>Have questions or collaboration inquiries? Feel free to reach out to us.</p>
-                <p>Email: <a href="mailto:contact@cbqr-project.com">contact@cbqr-project.com</a></p>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 CBQR Project. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
+    <div id="section3" class="content-section">
+      <h1>연락처</h1>
+      <p>연락처나 문의 정보를 이곳에 넣을 수 있습니다.</p>
+    </div>
+  </main>
 </body>
 </html>
