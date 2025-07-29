@@ -86,11 +86,11 @@
   </header>
 
   <nav class="main-menu" id="mainMenu">
-    <button data-key="car">🚗 차량</button>
-    <button data-key="computer">💻 전산장비</button>
-    <button data-key="phone">📞 유무선</button>
-    <button data-key="secure">🔐 보안</button>
-    <button data-key="goods">📦 일반물품</button>
+    <button data-key="menu1">사고 났어요</button>
+    <button data-key="menu2">차량이 고장났어요</button>
+    <button data-key="menu3">주유소 어디로 가죠!?</button>
+    <button data-key="menu4">세차장은 어디죠?</button>
+    <button data-key="menu5">담당업체는 어디죠?</button>
   </nav>
 
   <section class="submenu-container hidden" id="submenuContainer"></section>
@@ -103,7 +103,7 @@
   <script>
     // 1. 메뉴 데이터
     const menuData = {
-      car: ['고장 났어요','사고 났어요','담당자'],
+      menu1: ['견인이 필요해요','차량이 움직여요'],
       computer: ['고장났어요','소프트웨어','담당자'],
       phone: ['경비전화 고장','업무용 폰 고장','내부망 고장'],
       secure: ['개인정보 유출','보안 프로그램 미설치','보안 규정 문의'],
@@ -112,20 +112,35 @@
 
     // 2. 중첩 메뉴 데이터
     const subMenuData = {
-      '고장 났어요': ['타이어 펑크','연료 부족','배터리 방전'],
+      '견인이 필요해요': ['견인 접수 연락처','보험 접수','공문작성','공업사'],
       '사고 났어요': ['견인이 필요해요','보험회사 연락처','담당자'],
       '소프트웨어': ['MS오피스(엑셀)','한컴','기타']
     };
 
     // 3. 최하위 버튼별 설명 HTML 템플릿
     const contentData = {
-      '타이어 펑크': `
-        <h2>타이어 펑크 대처 안내</h2>
-        <p>경찰서에서는 직접 견인을 지원하지 않습니다. 주변 견인업체 연락처:</p>
-        <ul>
-          <li>AAA 견인: 123-4567</li>
-          <li>BBB 긴급출동: 765-4321</li>
-        </ul>
+      '견인 접수 연락처': `
+        <h2>견인 접수 연락처 안내</h2>
+        <p>삼성화재 : 1566-1228</p>
+      `,
+      '보험 접수': `
+        <h2>보험 접수 연락처 안내</h2>
+        <p>삼성화재 : 1566-6881</p>
+        <ol>
+          <li>사고정보 전달</li>
+          <li>보험사로부터 보험접수번호 부여</li>
+       </ol>
+      `,
+      '공문작성': `
+        <h2>공문작성 안내</h2>
+        <p>온나라 발생보고서 작성(보험접수번호 기재)</p>
+      `,
+      '공업사': `
+        <h2>공업사 안내</h2>
+        <p>남영공업사 : 02-442-1055</p>
+        <ol>
+          <li>주소 : 강동구 고덕로 62</li>
+       </ol>
       `,
       'MS오피스(엑셀)': `
         <h2>Microsoft Excel 핵심 기능</h2>
