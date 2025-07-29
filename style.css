@@ -1,13 +1,26 @@
-body {
+* {
   margin: 0;
-  background-color: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.container img {
-  max-width: 90%;
-  max-height: 90%;
+body {
+  background-color: black;
+  color: white;
+  font-family: sans-serif;
+}
+
+.qr-banner {
+  display: block;
+  margin: 0 auto;
+  max-width: 90vw;
+  max-height: 90vh;
+  cursor: pointer;
+  padding: 5vh 0;
+}
+
+.content {
+  background-color: #111;
+  padding: 100px 20px;
+  text-align: center;
 }
