@@ -19,6 +19,8 @@
       color: var(--accent);
       font-family: Arial, sans-serif;
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
     .site-header {
       display:flex; align-items:center; justify-content:center; gap:16px;
@@ -27,8 +29,8 @@
     .site-title { font-size:3.5rem; font-weight:700; }
     .logo       { height:40px; }
 
-    /* 데스크탑 공통 */
-    .main-menu, .submenu-container, .nav-footer {
+    /* Desktop: 메뉴와 서브메뉴 */
+    .main-menu, .submenu-container {
       display:flex; justify-content:center; align-items:center;
       gap:20px; flex-wrap:wrap; margin-top:5cm;
     }
@@ -39,15 +41,9 @@
     }
     .main-menu button { padding:20px 40px; font-size:32px; border-radius:16px; }
     .sub-btn          { padding:16px 32px; font-size:28px; border-radius:12px; }
-    .nav-footer button{
-      padding:20px 40px; font-size:32px; border-radius:16px;
-      background:var(--secondary); border:none;
-    }
-    button:hover { background: var(--accent); color: var(--primary); }
-    .hidden { display:none; }
 
     /* 콘텐츠 카드 */
-    .content-container { padding:16px; text-align:center; }
+    .content-container { flex:1; padding:16px; text-align:center; }
     .content-card {
       background: var(--card-bg);
       color: var(--card-text);
@@ -63,6 +59,19 @@
     }
     .content-card li { margin-bottom:8px; }
 
+    /* 이전/홈 버튼 (컨텐츠 바로 아래) */
+    .nav-footer {
+      display:flex; justify-content:center; align-items:center;
+      gap:20px; flex-wrap:wrap;
+      margin:2rem 0;    /* 컨텐츠 끝난 뒤 적당한 간격 */
+    }
+    .nav-footer button {
+      padding:20px 40px; font-size:32px; border-radius:16px;
+      background:var(--secondary); border:none;
+    }
+    button:hover { background: var(--accent); color: var(--primary); }
+    .hidden { display:none; }
+
     /* 자연스러운 모바일 레이아웃 */
     @media screen and (max-width:768px) {
       .site-title { font-size:2rem; }
@@ -75,10 +84,10 @@
         font-size:20px; padding:16px;
       }
       .nav-footer {
-        position:sticky; bottom:0;
         flex-direction:column; align-items:stretch;
-        margin-top:1rem; padding:0 1rem 1rem;
-        background:var(--primary);
+        padding:0 1rem 1rem;
+        position: static; /* sticky 제거 */
+        margin:1rem 0;
       }
       .nav-footer button {
         width:100%; margin:.5rem 0;
@@ -103,6 +112,8 @@
 
   <section class="submenu-container hidden" id="submenuContainer"></section>
   <section class="content-container" id="contentContainer"></section>
+
+  <!-- 이전/홈 버튼은 항상 컨텐츠 끝 바로 아래에 -->
   <footer class="nav-footer hidden" id="navFooter">
     <button id="backBtn">🔙 이전</button>
     <button id="homeBtn">🏠 홈으로</button>
@@ -253,6 +264,7 @@
          <p>정보화장비계: 02-3449-7272</p>`
       ],
     };
+
     let historyStack = [];
     const mainMenuEl = document.getElementById('mainMenu'),
           submenuEl  = document.getElementById('submenuContainer'),
@@ -301,7 +313,6 @@
       historyStack=[]; showMain();
     }
 
-    // 초기 실행
     showMain();
     mainMenuEl.addEventListener('click', e => {
       if(e.target.tagName==='BUTTON'){
