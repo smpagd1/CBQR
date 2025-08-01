@@ -27,20 +27,22 @@
     .site-title { font-size:3.5rem; font-weight:700; }
     .logo       { height:40px; }
 
-    /* 메뉴/내비 */
+    /* 데스크탑 공통 */
     .main-menu, .submenu-container, .nav-footer {
       display:flex; justify-content:center; align-items:center;
       gap:20px; flex-wrap:wrap; margin-top:5cm;
     }
-    .sub-btn, .main-menu button, .nav-footer button {
+    .main-menu button, .sub-btn, .nav-footer button {
       background:transparent; border:2px solid var(--accent);
       color:var(--accent); cursor:pointer;
       transition:background .3s, opacity .3s;
     }
     .main-menu button { padding:20px 40px; font-size:32px; border-radius:16px; }
     .sub-btn          { padding:16px 32px; font-size:28px; border-radius:12px; }
-    .nav-footer button{ padding:20px 40px; font-size:32px; border-radius:16px;
-                        background:var(--secondary); border:none; }
+    .nav-footer button{
+      padding:20px 40px; font-size:32px; border-radius:16px;
+      background:var(--secondary); border:none;
+    }
     button:hover { background: var(--accent); color: var(--primary); }
     .hidden { display:none; }
 
@@ -60,6 +62,29 @@
       padding-left:1.5rem; margin-bottom:16px;
     }
     .content-card li { margin-bottom:8px; }
+
+    /* 자연스러운 모바일 레이아웃 */
+    @media screen and (max-width:768px) {
+      .site-title { font-size:2rem; }
+      .main-menu, .submenu-container {
+        flex-direction:column; align-items:stretch;
+        margin-top:1rem; padding:0 1rem;
+      }
+      .main-menu button, .sub-btn {
+        width:100%; margin:.5rem 0;
+        font-size:20px; padding:16px;
+      }
+      .nav-footer {
+        position:sticky; bottom:0;
+        flex-direction:column; align-items:stretch;
+        margin-top:1rem; padding:0 1rem 1rem;
+        background:var(--primary);
+      }
+      .nav-footer button {
+        width:100%; margin:.5rem 0;
+        font-size:20px; padding:16px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -84,21 +109,16 @@
   </footer>
 
   <script>
-    // 1단계 메뉴
     const menuData = {
       menu1:['견인이 필요해요','애니카','1급 공업사','보험 접수','공문 작성'],
-      menu2:['애니카', '1급 공업사'],
+      menu2:['애니카','1급 공업사'],
       menu3:['오렌지 주유소(성내동)','S-Oil 주유소(영파여고 맞은편)'],
       menu4:['간단한 외부 자동세차','실내까지 손세차'],
       menu5:['차량 정기·종합(법정)검사','차량 월간 점검','업무시간']
     };
-
-    // 2단계 중첩 예시 (없으면 바로 content)
     const subMenuData = {
-      '차량 정기 점검':['차량 ','천호주유소(천호)','강일주유소(강일)']
+      '가까운 주유소':['오렌지 주유소(성내동)','천호주유소(천호)','강일주유소(강일)']
     };
-
-    // 3단계: 각 항목별로 여러 카드 블록 배열
     const contentData = {
       '견인이 필요해요': [
         `<h2>견인 업체 안내</h2>
@@ -233,39 +253,13 @@
          <p>정보화장비계: 02-3449-7272</p>`
       ],
     };
-
     let historyStack = [];
-    const mainMenuEl  = document.getElementById('mainMenu'),
-          submenuEl   = document.getElementById('submenuContainer'),
-          contentEl   = document.getElementById('contentContainer'),
-          navFooter   = document.getElementById('navFooter'),
-          backBtn     = document.getElementById('backBtn'),
-          homeBtn     = document.getElementById('homeBtn');
-
-    // 초기화
-    showMain();
-
-    mainMenuEl.addEventListener('click', e => {
-      if (e.target.tagName==='BUTTON') {
-        const key = e.target.dataset.key;
-        historyStack=[{view:'main'},{view:'sub',key}];
-        showSubMenu(key);
-      }
-    });
-    submenuEl.addEventListener('click', e => {
-      if (e.target.tagName==='BUTTON') {
-        const txt=e.target.textContent, last=historyStack.at(-1);
-        if (last.view==='sub') {
-          historyStack.push({view:'nested',sub:txt,parent:last.key});
-          subMenuData[txt]?showNested(txt):showContent(txt);
-        } else {
-          historyStack.push({view:'content',item:txt});
-          showContent(txt);
-        }
-      }
-    });
-    backBtn.addEventListener('click',goBack);
-    homeBtn.addEventListener('click',goHome);
+    const mainMenuEl = document.getElementById('mainMenu'),
+          submenuEl  = document.getElementById('submenuContainer'),
+          contentEl  = document.getElementById('contentContainer'),
+          navFooter  = document.getElementById('navFooter'),
+          backBtn    = document.getElementById('backBtn'),
+          homeBtn    = document.getElementById('homeBtn');
 
     function showMain(){
       mainMenuEl.classList.remove('hidden');
@@ -275,13 +269,14 @@
     }
     function showSubMenu(key){
       mainMenuEl.classList.add('hidden');
-      submenuEl.innerHTML=menuData[key]
+      submenuEl.innerHTML = menuData[key]
         .map(x=>`<button class="sub-btn">${x}</button>`).join('');
       submenuEl.classList.remove('hidden');
       contentEl.innerHTML=''; navFooter.classList.remove('hidden');
     }
     function showNested(sub){
-      submenuEl.innerHTML=subMenuData[sub]
+      mainMenuEl.classList.add('hidden');
+      submenuEl.innerHTML = subMenuData[sub]
         .map(x=>`<button class="sub-btn">${x}</button>`).join('');
       submenuEl.classList.remove('hidden');
       contentEl.innerHTML=''; navFooter.classList.remove('hidden');
@@ -291,14 +286,13 @@
       submenuEl.classList.add('hidden');
       const cards = contentData[item] || [`<h2>${item}</h2><p>'${item}' 기본 설명</p>`];
       contentEl.innerHTML = cards
-        .map(html=>`<div class="content-card">${html}</div>`)
-        .join('');
+        .map(html=>`<div class="content-card">${html}</div>`).join('');
       navFooter.classList.remove('hidden');
     }
     function goBack(){
       if(historyStack.length<=1) return showMain();
       historyStack.pop();
-      const prev=historyStack.at(-1);
+      const prev = historyStack.at(-1);
       if(prev.view==='main') showMain();
       else if(prev.view==='sub') showSubMenu(prev.key);
       else showNested(prev.sub);
@@ -306,6 +300,30 @@
     function goHome(){
       historyStack=[]; showMain();
     }
+
+    // 초기 실행
+    showMain();
+    mainMenuEl.addEventListener('click', e => {
+      if(e.target.tagName==='BUTTON'){
+        const key=e.target.dataset.key;
+        historyStack=[{view:'main'},{view:'sub',key}];
+        showSubMenu(key);
+      }
+    });
+    submenuEl.addEventListener('click', e => {
+      if(e.target.tagName==='BUTTON'){
+        const txt=e.target.textContent, last=historyStack.at(-1);
+        if(last.view==='sub'){
+          historyStack.push({view:'nested',sub:txt,parent:last.key});
+          subMenuData[txt]?showNested(txt):showContent(txt);
+        } else {
+          historyStack.push({view:'content',item:txt});
+          showContent(txt);
+        }
+      }
+    });
+    backBtn.addEventListener('click', goBack);
+    homeBtn.addEventListener('click', goHome);
   </script>
 </body>
 </html>
