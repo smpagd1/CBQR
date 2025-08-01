@@ -11,7 +11,7 @@
       --accent:    #FFFFFF;
       --card-bg:   #f9f9f9;
       --card-text: #002B3F;
-      --shadow:    rgba(0, 0, 0, 0.15);
+      --shadow:    rgba(0,0,0,0.15);
     }
     * { margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
     body {
@@ -27,67 +27,39 @@
     .site-title { font-size:3.5rem; font-weight:700; }
     .logo       { height:40px; }
 
-    /* Desktop */
+    /* 메뉴/내비 */
     .main-menu, .submenu-container, .nav-footer {
       display:flex; justify-content:center; align-items:center;
       gap:20px; flex-wrap:wrap; margin-top:5cm;
     }
-    .main-menu button { padding:20px 40px; font-size:32px; border-radius:16px; }
-    .sub-btn          { padding:16px 32px; font-size:28px; border-radius:12px; }
-    .nav-footer button {
-      padding:20px 40px; font-size:32px; border-radius:16px;
-      border:none; background:var(--secondary);
-    }
-
-    /* Mobile */
-    @media screen and (max-width:768px) {
-      .site-title { font-size:2rem; }
-      .main-menu, .submenu-container, .nav-footer {
-        flex-direction:column; align-items:center; margin-top:2cm;
-      }
-      .main-menu button, .sub-btn, .nav-footer button {
-        width:80%; max-width:300px; margin:.5rem 0;
-      }
-      .main-menu button { padding:16px; font-size:24px; }
-      .sub-btn          { padding:12px; font-size:20px; }
-      .nav-footer button{ padding:16px; font-size:24px; }
-    }
-
-    button {
+    .sub-btn, .main-menu button, .nav-footer button {
       background:transparent; border:2px solid var(--accent);
       color:var(--accent); cursor:pointer;
       transition:background .3s, opacity .3s;
     }
-    button:hover { background:var(--accent); color:var(--primary); }
+    .main-menu button { padding:20px 40px; font-size:32px; border-radius:16px; }
+    .sub-btn          { padding:16px 32px; font-size:28px; border-radius:12px; }
+    .nav-footer button{ padding:20px 40px; font-size:32px; border-radius:16px;
+                        background:var(--secondary); border:none; }
+    button:hover { background: var(--accent); color: var(--primary); }
     .hidden { display:none; }
 
-    /* 콘텐츠 카드 스타일 */
+    /* 콘텐츠 카드 */
     .content-container { padding:16px; text-align:center; }
     .content-card {
-      margin-top: 3cm; /* 카드 바로 아래에 붙도록 */
-      background:var(--card-bg); color:var(--card-text);
-      max-width:800px; 
-      margin-left: auto;
-      margin-right: auto; 
-      padding:24px;
-      border-radius:16px; 
+      background: var(--card-bg);
+      color: var(--card-text);
+      max-width:800px; margin:16px auto;
+      padding:24px; border-radius:16px;
       box-shadow:0 4px 12px var(--shadow);
+      text-align:left;
     }
-    .content-card h2 {
-      font-size:2rem;
-      margin-bottom:32px; /* 충분한 여백 */
-    }
-    .content-card p {
-      margin-top:24px;    /* h2 다음에 추가 여백 */
-      font-size:1.1rem;
-      margin-bottom:16px;
-      line-height:1.5;
-    }
+    .content-card h2 { font-size:2rem; margin-bottom:24px; }
+    .content-card p  { font-size:1.1rem; margin-bottom:16px; line-height:1.5; }
     .content-card ul, .content-card ol {
-      margin:16px auto; padding-left:1.5rem;
-      text-align:left; max-width:600px;
+      padding-left:1.5rem; margin-bottom:16px;
     }
-    .content-card li { margin-bottom:8px; font-size:1rem; }
+    .content-card li { margin-bottom:8px; }
   </style>
 </head>
 <body>
@@ -112,20 +84,154 @@
   </footer>
 
   <script>
+    // 1단계 메뉴
     const menuData = {
-      menu1:['공업사','보험 접수','공문 작성','견인 접수 연락처','담당자 연락처'],
-      menu2:['타이어 펑크','연료 부족','배터리 방전'],
-      menu3:['가까운 주유소','가격 비교','영업시간'],
-      menu4:['가까운 세차장','가격','풀패키지'],
-      menu5:['업체명','연락처','업무시간']
+      menu1:['견인이 필요해요','애니카','1급 공업사','보험 접수','공문 작성'],
+      menu2:['애니카', '1급 공업사'],
+      menu3:['오렌지 주유소(성내동)','S-Oil 주유소(영파여고 맞은편)'],
+      menu4:['간단한 외부 자동세차','실내까지 손세차'],
+      menu5:['차량 정기·종합(법정)검사','차량 월간 점검','업무시간']
     };
-    const subMenuData = { '소프트웨어':['MS오피스(엑셀)','한컴','기타'] };
+
+    // 2단계 중첩 예시 (없으면 바로 content)
+    const subMenuData = {
+      '차량 정기 점검':['차량 ','천호주유소(천호)','강일주유소(강일)']
+    };
+
+    // 3단계: 각 항목별로 여러 카드 블록 배열
     const contentData = {
-      '공업사': `<h2>남영공업사 안내</h2><p>📞 02-442-1055</p><p>📍 강동구 고덕로 62</p>`,
-      '보험 접수': `<h2>삼성화재 보험 접수</h2><p>📞 1566-1228</p>`,
-      '공문 작성': `<h2>공문 작성 안내</h2><p>발생보고서 작성</p>`,
-      '견인 접수 연락처': `<h2>견인 접수 연락처 안내</h2><p>삼성화재: 1566-1228</p>`,
-      '담당자 연락처': `<h2>담당자 연락처 안내</h2><p>02-3449-7278</p>`
+      '견인이 필요해요': [
+        `<h2>견인 업체 안내</h2>
+         <p>전화번호 : 1566-1228 (삼성화재)</p>`,
+        `<h2>문의</h2>
+         <p>정보화장비계: 02-3449-7272</p>`
+      ],
+      '애니카': [
+        `<h2>애니카 안내</h2>
+         <p>간단한 정비 시 이용할 수 있어요</p>`,
+        `<h2>이용 시 유의사항</h2>
+         <p>비용이 청구되면 정보화장비계 담당자에게 알려주세요</p>`,
+        `<h2>문의</h2>
+         <p>정보화장비계: 02-3449-7272</p>`
+      ],
+      '1급 공업사': [
+        `<h2>1급 공업사 안내</h2>
+         <p>정비 시 이용할 수 있어요</p>`,
+        `<h2>이용 시 유의사항</h2>
+         <p>비용이 청구되면 정보화장비계 담당자에게 알려주세요</p>`,
+        `<h2>문의</h2>
+         <p>정보화장비계: 02-3449-7272</p>`
+      ],
+      '보험 접수': [
+        `<h2>보험 접수 안내</h2>
+         <p>삼성화재와 계약되어 있어요</p>
+         <p>연락처 : 1566-6881</p>`,
+        `<h2>이용 시 유의사항</h2>
+         <p>비용이 청구되면 정보화장비계 담당자에게 알려주세요</p>`,
+        `<h2>문의</h2>
+         <p>정보화장비계: 02-3449-7272</p>`
+      ],
+      '공문 작성': [
+        `<h2>공문 작성 안내</h2>
+         <p>온나라시스템에 접속하여 발생보고서를 작성하세요.</p>`,
+        `<h2>작성 시 유의사항</h2>
+         <ul>
+           <li>보험접수번호를 반드시 기재해주세요</li>
+           <li>담당자 서명란 채워넣기</li>
+         </ul>`,
+        `<h2>문의</h2>
+         <p>정보화장비계: 02-3449-7272</p>`
+      ],
+      '타이어': [
+        `<h2>타이어 펑크 대처</h2>
+         <p>현장에서는 안전지대로 이동하세요.</p>`,
+        `<h2>견인 업체 연락처</h2>
+         <p>삼성화재(견인) : 1566-1228</p>`,
+        `<h2>타이어 업체 연락처</h2>
+         <p>신영타이어 : 02-477-3335</p>`,
+        `<h2>문의</h2>
+         <p>정보화장비계: 02-3449-7272</p>`
+      ],
+       '오렌지 주유소(성내동)': [
+        `<h2>오렌지 주유소 안내</h2>
+         <p>주소 : 서울특별시 강동구 성안로 102 (성내동)</p>
+         <p>연락처 : 02-484-6165</p>
+         <p>지도 : 
+           <a href="https://map.naver.com/p/search/%EC%98%A4%EB%A0%8C%EC%A7%80%20%EC%A3%BC%EC%9C%A0%EC%86%8C%20%EC%84%B1%EB%82%B4%EB%8F%99/place/13184649?placePath=/home?entry=pll&from=map&fromNxList=true&fromPanelNum=2&timestamp=202508011100&locale=ko&svcName=map_pcv5&searchText=%EC%98%A4%EB%A0%8C%EC%A7%80%20%EC%A3%BC%EC%9C%A0%EC%86%8C%20%EC%84%B1%EB%82%B4%EB%8F%99&searchType=place&c=15.74,0,0,0,dh" target="_blank">
+             네이버 지도에서 보기
+           </a>
+         </p>`,
+        `<h2>문의</h2>
+         <p>정보화장비계: 02-3449-7272</p>`
+      ],
+       'S-Oil 주유소(영파여고 맞은편)': [
+        `<h2>S-Oil 주유소 안내</h2>
+         <p>주소 : 서울 강동구 올림픽로 556 (성내동)</p>
+         <p>연락처 : 02-484-1162</p>
+         <p>지도 : 
+           <a href="https://map.naver.com/p/entry/place/1514006819?placePath=/home?entry=plt&from=map&fromPanelNum=1&additionalHeight=76&timestamp=202508011108&locale=ko&svcName=map_pcv5&searchType=place&lng=127.1212068&lat=37.5313624&c=15.00,0,0,0,dh" target="_blank">
+             네이버 지도에서 보기
+           </a>
+         </p>`,
+        `<h2>문의</h2>
+         <p>정보화장비계: 02-3449-7272</p>`
+      ],
+      '간단한 외부 자동세차': [
+        `<h2>간단한 외부 자동세차 안내</h2>
+         <p>업체 : 오렌지 주유소</p>
+         <p>주소 : 서울특별시 강동구 성안로 102 (성내동)</p>
+         <p>연락처 : 02-484-6165</p>
+         <p>지도 : 
+           <a href="https://map.naver.com/p/search/%EC%98%A4%EB%A0%8C%EC%A7%80%20%EC%A3%BC%EC%9C%A0%EC%86%8C%20%EC%84%B1%EB%82%B4%EB%8F%99/place/13184649?placePath=/home?entry=pll&from=map&fromNxList=true&fromPanelNum=2&timestamp=202508011100&locale=ko&svcName=map_pcv5&searchText=%EC%98%A4%EB%A0%8C%EC%A7%80%20%EC%A3%BC%EC%9C%A0%EC%86%8C%20%EC%84%B1%EB%82%B4%EB%8F%99&searchType=place&c=15.74,0,0,0,dh" target="_blank">
+             네이버 지도에서 보기
+           </a>
+         </p>
+         <p>✅ 반드시 쿠폰 지참(사전에 정장계에서 수령)</p>`,
+        `<h2>문의</h2>
+         <p>정보화장비계: 02-3449-7272</p>`
+      ],
+      '실내까지 손세차': [
+        `<h2>실내까지 손세차 안내</h2>
+         <p>업체 : 지성손세차</p>
+         <p>주소 : 서울 강동구 올림픽로 606 (성내동)</p>
+         <p>연락처 : 02-478-0818</p>
+         <p>지도 : 
+           <a href="https://map.naver.com/p/entry/place/1723111936?placePath=%252Fhome%253Fentry%253Dplt&searchType=place&lng=127.1227034&lat=37.5355703&c=15.00,0,0,0,dh" target="_blank">
+             네이버 지도에서 보기
+           </a>
+         </p>
+         <p>✅ 월 1회만 방문</p>`,
+        `<h2>문의</h2>
+         <p>정보화장비계: 02-3449-7272</p>`
+      ],
+      '차량 정기·종합(법정)검사': [
+        `<h2>정기·종합(법정)검사 업체 안내</h2>
+         <p>업체 : 르노자동차</p>
+         <p>주소 : 서울 강동구 천호대로 1189 (길동)</p>
+         <p>연락처 : 0507-1381-6202</p>
+         <p>지도 : 
+           <a href="https://map.naver.com/p/search/%EB%A5%B4%EB%85%B8%EC%BD%94%EB%A6%AC%EC%95%84%EC%84%9C%EB%B9%84%EC%8A%A4%EC%84%BC%ED%84%B0%20%EA%B0%95%EB%8F%99%EC%A0%95%EB%B9%84/place/1714035669?placePath=/home?entry=pll&from=map&fromPanelNum=2&timestamp=202508011119&locale=ko&svcName=map_pcv5&searchText=%EB%A5%B4%EB%85%B8%EC%BD%94%EB%A6%AC%EC%95%84%EC%84%9C%EB%B9%84%EC%8A%A4%EC%84%BC%ED%84%B0%20%EA%B0%95%EB%8F%99%EC%A0%95%EB%B9%84&from=nx&fromNxList=true&searchType=place&c=15.00,0,0,0,dh" target="_blank">
+             네이버 지도에서 보기
+           </a>
+         </p>
+         <p>✅  차량등록증, 결제카드 없이 가능 (사전등록완료)</p>`,
+        `<h2>문의</h2>
+         <p>정보화장비계: 02-3449-7272</p>`
+      ],
+      '차량 월간 점검': [
+        `<h2>애니카 성내점</h2>
+         <p>업체 : 르노자동차</p>
+         <p>주소 : 서울 강동구 천호대로 1189 (길동)</p>
+         <p>연락처 : 0507-1381-6202</p>
+         <p>지도 : 
+           <a href="https://map.naver.com/p/search/%EB%A5%B4%EB%85%B8%EC%BD%94%EB%A6%AC%EC%95%84%EC%84%9C%EB%B9%84%EC%8A%A4%EC%84%BC%ED%84%B0%20%EA%B0%95%EB%8F%99%EC%A0%95%EB%B9%84/place/1714035669?placePath=/home?entry=pll&from=map&fromPanelNum=2&timestamp=202508011119&locale=ko&svcName=map_pcv5&searchText=%EB%A5%B4%EB%85%B8%EC%BD%94%EB%A6%AC%EC%95%84%EC%84%9C%EB%B9%84%EC%8A%A4%EC%84%BC%ED%84%B0%20%EA%B0%95%EB%8F%99%EC%A0%95%EB%B9%84&from=nx&fromNxList=true&searchType=place&c=15.00,0,0,0,dh" target="_blank">
+             네이버 지도에서 보기
+           </a>
+         </p>
+         <p>✅  차량등록증, 결제카드 없이 가능 (사전등록완료)</p>`,
+        `<h2>문의</h2>
+         <p>정보화장비계: 02-3449-7272</p>`
+      ],
     };
 
     let historyStack = [];
@@ -136,6 +242,7 @@
           backBtn     = document.getElementById('backBtn'),
           homeBtn     = document.getElementById('homeBtn');
 
+    // 초기화
     showMain();
 
     mainMenuEl.addEventListener('click', e => {
@@ -147,10 +254,9 @@
     });
     submenuEl.addEventListener('click', e => {
       if (e.target.tagName==='BUTTON') {
-        const txt = e.target.textContent,
-              last=historyStack.at(-1);
+        const txt=e.target.textContent, last=historyStack.at(-1);
         if (last.view==='sub') {
-          historyStack.push({view:'nested',parent:last.key,sub:txt});
+          historyStack.push({view:'nested',sub:txt,parent:last.key});
           subMenuData[txt]?showNested(txt):showContent(txt);
         } else {
           historyStack.push({view:'content',item:txt});
@@ -158,34 +264,39 @@
         }
       }
     });
-    backBtn.addEventListener('click', goBack);
-    homeBtn.addEventListener('click', goHome);
+    backBtn.addEventListener('click',goBack);
+    homeBtn.addEventListener('click',goHome);
 
-    function showMain() {
+    function showMain(){
       mainMenuEl.classList.remove('hidden');
       submenuEl.classList.add('hidden');
       contentEl.innerHTML='';
       navFooter.classList.add('hidden');
     }
-    function showSubMenu(key) {
+    function showSubMenu(key){
       mainMenuEl.classList.add('hidden');
-      submenuEl.innerHTML=menuData[key].map(x=>`<button class="sub-btn">${x}</button>`).join('');
+      submenuEl.innerHTML=menuData[key]
+        .map(x=>`<button class="sub-btn">${x}</button>`).join('');
       submenuEl.classList.remove('hidden');
       contentEl.innerHTML=''; navFooter.classList.remove('hidden');
     }
-    function showNested(sub) {
-      submenuEl.innerHTML=subMenuData[sub].map(x=>`<button class="sub-btn">${x}</button>`).join('');
+    function showNested(sub){
+      submenuEl.innerHTML=subMenuData[sub]
+        .map(x=>`<button class="sub-btn">${x}</button>`).join('');
       submenuEl.classList.remove('hidden');
       contentEl.innerHTML=''; navFooter.classList.remove('hidden');
     }
-    function showContent(item) {
+    function showContent(item){
       mainMenuEl.classList.add('hidden');
       submenuEl.classList.add('hidden');
-      contentEl.innerHTML=`<div class="content-card">${contentData[item]||`<h2>${item}</h2><p>'${item}' 기본 설명</p>`}</div>`;
+      const cards = contentData[item] || [`<h2>${item}</h2><p>'${item}' 기본 설명</p>`];
+      contentEl.innerHTML = cards
+        .map(html=>`<div class="content-card">${html}</div>`)
+        .join('');
       navFooter.classList.remove('hidden');
     }
-    function goBack() {
-      if (historyStack.length<=1) return showMain();
+    function goBack(){
+      if(historyStack.length<=1) return showMain();
       historyStack.pop();
       const prev=historyStack.at(-1);
       if(prev.view==='main') showMain();
