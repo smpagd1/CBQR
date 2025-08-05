@@ -113,6 +113,9 @@
     <button data-key="menu3">
        <img src="gas_station.png" alt="고장 아이콘" class="btn-icon" /> 주유소 안내
     </button>
+    <button data-key="menu7">
+       <img src="car-maintenance.png" alt="고장 아이콘" class="btn-icon" /> 차량 검사 업체
+    </button>
     <button data-key="menu4">
        <img src="car_wash.png" alt="고장 아이콘" class="btn-icon" /> 세차장 안내
     </button>
@@ -122,6 +125,9 @@
     <button data-key="menu6">
        <img src="electric-car.png" alt="고장 아이콘" class="btn-icon" /> 전기차량 운행 안내
     </button>
+
+
+
   </nav>
 
   <section class="submenu-container hidden" id="submenuContainer"></section>
@@ -136,14 +142,16 @@
   <script>
     const menuData = {
       menu1:['보험 접수','견인이 필요할 때','공업사','공문 작성'],
-      menu2:['삼성화재 애니카'],
+      menu2:['애니카랜드', '타이어업체'],
       menu3:['S-Oil 주유소<br>(천호, 성내, 암사, 교통)', '오렌지 주유소<br>(그외 부서)'],
       menu4:['간단한 외부 자동세차','실내까지 손세차'],
-      menu5:['차량 정기·종합(법정)검사','차량 월간 점검','정비 및 수리업체', '타이어업체', '경광등, 앰프업체', '112태블릿업체'],
-      menu6:['안전수칙 준수','화재발생 시','침수 시', '비상용 망치', '충전소 위치']
+      menu5:['정비 및 수리업체', '경광등, 앰프업체', '112태블릿업체'],
+      menu6:['안전수칙 준수','화재발생 시','침수 시', '비상용 망치', '충전소 위치'],
+      menu7:['차량 정기·종합(법정)검사','차량 월간 점검']
     };
     const subMenuData = {
       '경광등, 앰프업체':['24년 이전','25년']
+
     };
     const contentData = {
       '안전수칙 준수': [
@@ -212,7 +220,7 @@
         `<h2>문의</h2>
          <p>정보화장비계: 02-3449-7278</p>`
       ],
-      '삼성화재 애니카': [
+      '애니카랜드': [
         `<h2>차량 기본 정비 및 수리업체(애니카) 안내</h2>`,
         `<h2>애니카 성내점</h2>
          <p>주소 : 서울 강동구 강동대로53길 9 (성내동)</p>
