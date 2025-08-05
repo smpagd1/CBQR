@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>강동경찰서 메뉴</title>
+  <link rel="stylesheet" href="style.css">
   <style>
     :root {
       --primary:   #003B4F;
@@ -103,12 +104,24 @@
   </header>
 
   <nav class="main-menu" id="mainMenu">
-    <button data-key="menu1">사고 났어요</button>
-    <button data-key="menu2">고장 났어요</button>
-    <button data-key="menu3">주유소 어디로 가죠!?</button>
-    <button data-key="menu4">세차장은 어디죠!?</button>
-    <button data-key="menu5">각종 특장업체는 어디죠!?</button>
-    <button data-key="menu6">전기차량 운행 안내</button>
+    <button data-key="menu1">
+       <img src="car-accident.png" alt="고장 아이콘" class="btn-icon" /> 교통사고
+    </button>
+    <button data-key="menu2">
+       <img src="car_repair.png" alt="고장 아이콘" class="btn-icon" /> 차량이 고장 났어요
+    </button>
+    <button data-key="menu3">
+       <img src="gas_station.png" alt="고장 아이콘" class="btn-icon" /> 주유소 안내
+    </button>
+    <button data-key="menu4">
+       <img src="car_wash.png" alt="고장 아이콘" class="btn-icon" /> 세차장 안내
+    </button>
+    <button data-key="menu5">
+       <img src="tools.png" alt="고장 아이콘" class="btn-icon" /> 각종 특장업체 안내
+    </button>
+    <button data-key="menu6">
+       <img src="electric-car.png" alt="고장 아이콘" class="btn-icon" /> 전기차량 운행 안내
+    </button>
   </nav>
 
   <section class="submenu-container hidden" id="submenuContainer"></section>
